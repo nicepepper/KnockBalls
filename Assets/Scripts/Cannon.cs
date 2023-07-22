@@ -10,7 +10,8 @@ public class Cannon : MonoBehaviour
     [SerializeField] private GameObject _gunpoint;
 
     private Camera _mainCamera;
-    private Plane _reticle => new Plane(Vector3.back, transform.position + new Vector3(0.0f, 0.0f, 10.0f));
+    private Plane Reticle => new Plane(Vector3.back, transform.position + new Vector3(0.0f, 0.0f, 20.0f));
+    private Vector3 _speed = Vector3.zero;
 
     private void Start()
     {
@@ -19,17 +20,26 @@ public class Cannon : MonoBehaviour
 
     private void Update()
     {
-        float enter;
+        float target;
         Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        _reticle.Raycast(ray, out enter);
-        Vector3 shotDirection = ray.GetPoint(enter) - transform.position;
-        Vector3 speed = shotDirection * _power;
+        Reticle.Raycast(ray, out target);
+        Vector3 shotDirection = ray.GetPoint(target) - transform.position;
+        _speed = shotDirection * _power;
         transform.rotation = Quaternion.LookRotation(shotDirection);
-
+        
         if (Input.GetMouseButtonDown(0))
         {
             Rigidbody cannonBall = Instantiate(_cannonBallPrefab, _gunpoint.transform.position,  Quaternion.identity).GetComponent<Rigidbody>();
-            cannonBall.AddForce(speed, ForceMode.VelocityChange);
+            cannonBall.AddForce(_speed, ForceMode.VelocityChange);
         }
     }
+
+    /*private void FixedUpdate()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Rigidbody cannonBall = Instantiate(_cannonBallPrefab, _gunpoint.transform.position,  Quaternion.identity).GetComponent<Rigidbody>();
+            cannonBall.AddForce(_speed, ForceMode.VelocityChange);
+        }
+    }*/
 }
