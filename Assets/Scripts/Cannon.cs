@@ -8,9 +8,10 @@ public class Cannon : MonoBehaviour
     [SerializeField] private GameObject _cannonBallPrefab;
     [SerializeField] private float _power = 10;
     [SerializeField] private GameObject _gunpoint;
+    [SerializeField] private float _reticleRange = 20.0f;
 
     private Camera _mainCamera;
-    private Plane Reticle => new Plane(Vector3.back, transform.position + new Vector3(0.0f, 0.0f, 20.0f));
+    private Plane Reticle => new Plane(Vector3.back, transform.position + new Vector3(0.0f, 0.0f, _reticleRange));
     private Vector3 _speed = Vector3.zero;
 
     private void Start()
@@ -33,13 +34,4 @@ public class Cannon : MonoBehaviour
             cannonBall.AddForce(_speed, ForceMode.VelocityChange);
         }
     }
-
-    /*private void FixedUpdate()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Rigidbody cannonBall = Instantiate(_cannonBallPrefab, _gunpoint.transform.position,  Quaternion.identity).GetComponent<Rigidbody>();
-            cannonBall.AddForce(_speed, ForceMode.VelocityChange);
-        }
-    }*/
 }
