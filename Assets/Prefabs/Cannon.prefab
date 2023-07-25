@@ -97,8 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cannonBallPrefab: {fileID: 1240887441953726, guid: 8a976dcd328a4664c85144f33b9c46b0, type: 3}
-  _power: 3
-  _gunpoint: {fileID: 1897587484924326}
+  _firePoint: {fileID: 1897587484924326}
+  _reticleRange: 20
+  _power: 2
 --- !u!1 &1567176924082346
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4458445124252350}
   m_Layer: 0
-  m_Name: SCALED
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4574405651562524}
   m_Layer: 0
-  m_Name: Gunpoint
+  m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -9,7 +9,7 @@ namespace Enemy
    [RequireComponent(typeof(NavMeshAgent))]
    public class EnemyAI : MonoBehaviour
    {
-      [SerializeField] private Transform[] _waypoints = new Transform[]{};
+      [SerializeField] private Transform[] _waypoints;
       private NavMeshAgent _agent;
       private int _waypointIndex = 0;
       private Vector3 _target;
@@ -18,8 +18,6 @@ namespace Enemy
       {
          _agent = GetComponent<NavMeshAgent>();
          UpdateDestination();
-         
-         
       }
 
       private void Update()
