@@ -10,9 +10,11 @@ namespace Game
 {
     public class QuickGame : MonoBehaviour
     {
-        [SerializeField] private EnemyFactory _enemyFactory;
+        [SerializeField] private EnemySpawner _enemySpawner;
         private EnemyCollection _enemies = new EnemyCollection();
-        
+        [SerializeField] private AudioSource _menuSound;
+        [SerializeField] private AudioSource _battlefield;
+
         private void Awake()
         {
             GameEvent.OnPrepare += OnGamePrepare;
@@ -31,25 +33,25 @@ namespace Game
 
         private void Update()
         {
-            SpawnEnemy();
             _enemies.GameUpdate();
             Physics.SyncTransforms();
         }
 
-        private void SpawnEnemy()
-        {
-            Enemy.Enemy enemy = _enemyFactory.Get((EnemyType)Random.Range(0, 2));
-            _enemies.Add(enemy);
-        }
-
         private void OnGamePrepare()
         {
-            
+            _menuSound.Play();
+            _battlefield.Stop();
+            _enemySpawner.StopAllCoroutines();
+            _enemies.DestroyEnemies();
+            Cursor.lockState = CursorLockMode.None;
         }
 
         private void OnGameStart()
         {
-            
+            _menuSound.Stop();
+            _battlefield.Play();
+            _enemySpawner.SpawnEnemy(_enemies);
+            Cursor.lockState = CursorLockMode.Confined;
         }
 
         private void OnGameQuit()

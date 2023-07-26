@@ -6,8 +6,6 @@ namespace CustomGameEvent
         PREPARE,
         START,
         STOP,
-        WIN,
-        LOSE,
         END,
         QUIT,
     }

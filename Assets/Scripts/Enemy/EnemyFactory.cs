@@ -10,9 +10,9 @@ namespace Enemy
         class EnemyConfig
         {
             public Enemy Prefab;
-            [FloatRangeSlider(0f, 5f)]
+            [FloatRangeSlider(1f, 5f)]
             public FloatRange Speed = new FloatRange(1f);
-            [FloatRangeSlider(10f, 100f)]
+            [FloatRangeSlider(1f, 1000f)]
             public FloatRange Health = new FloatRange(20);
         }
 

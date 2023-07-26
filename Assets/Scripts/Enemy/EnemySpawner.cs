@@ -8,32 +8,56 @@ namespace Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        //[SerializeField] private EnemyFactory _enemyFactory;
+        [SerializeField] private EnemyFactory _enemyFactory;
         
-        [SerializeField] private GameObject _enemyPrefab;
-        [SerializeField] private GameObject _spawnPoint;
+        [SerializeField] private int _numberWaypoints = 3;
+        [SerializeField] private Transform _spawnPoint;
         [SerializeField, Range(0f, 20f)] private float _spawnRadius = 1f;
         [SerializeField] private float _spawnDelay = 5f;
         [SerializeField] private int _spawnCounter = 10;
+        [SerializeField] private bool _isEndlessSpawn = false;
+        private Coroutine _coroutineHandle;
 
-        private void Start()
+        public void SpawnEnemy(EnemyCollection enemyCollection)
         {
-            
+            _coroutineHandle = StartCoroutine(RoundSpawner(enemyCollection));
         }
 
-        private List<GameObject> _enamyAIs = new List<GameObject>();
-        
-        private IEnumerator RoundSpawner()
+        public void StopSpawnEnemy()
+        {
+            StopCoroutine(_coroutineHandle);
+        }
+
+        private IEnumerator RoundSpawner(EnemyCollection enemyCollection)
         { 
-           while (_spawnCounter > 0)
+           while (_spawnCounter > 0 || _isEndlessSpawn)
            {
-               _spawnCounter--;
-               Vector3 point = GetRandomPointInСircleXZ(_spawnPoint.transform.position, _spawnRadius);
-               _enamyAIs.Add(Instantiate(_enemyPrefab, point, Quaternion.identity));
+               if (!_isEndlessSpawn)
+               {
+                   _spawnCounter--;
+               }
+               Vector3 point = GetRandomPointInСircleXZ(_spawnPoint.position, _spawnRadius);
+               Enemy enemy = _enemyFactory.Get((EnemyType)Random.Range(0, 2));
+               enemyCollection.Add(enemy);
+               enemy.Warp(point);
+               SetWaypoints(enemy);
+               
                yield return new WaitForSeconds(_spawnDelay);
+               yield return new WaitForFixedUpdate();
            }
         }
 
+        private void SetWaypoints(Enemy enemy)
+        {
+            if (_numberWaypoints > 0)
+            {
+                for (int i = 0; i < _numberWaypoints; i++)
+                {
+                    enemy.AddWaypoint(GetRandomPointInСircleXZ(_spawnPoint.position, _spawnRadius));
+                }
+            }
+        }
+        
         private Vector3 GetRandomPointInСircleXZ(Vector3 center, float radius)
         {
             Vector2 point = new Vector2();
@@ -44,7 +68,7 @@ namespace Enemy
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(_spawnPoint.transform.position, _spawnRadius);
+            Gizmos.DrawWireSphere(_spawnPoint.position, _spawnRadius);
         }
     }
 }

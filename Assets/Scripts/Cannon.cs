@@ -21,17 +21,25 @@ public class Cannon : MonoBehaviour
 
     private void Update()
     {
-        float hit;
-        Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-        Reticle.Raycast(ray, out hit);
-        Vector3 shotDirection = ray.GetPoint(hit) - transform.position;
-        _speed = shotDirection * _power;
-        transform.rotation = Quaternion.LookRotation(shotDirection);
-        
-        if (Input.GetButtonDown("Fire1"))
+        if (CanProcessInput())
         {
-            Rigidbody cannonBall = Instantiate(_cannonBallPrefab, _firePoint.transform.position,  Quaternion.identity).GetComponent<Rigidbody>();
-            cannonBall.AddForce(_speed, ForceMode.VelocityChange);
+            float hit;
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            Reticle.Raycast(ray, out hit);
+            Vector3 shotDirection = ray.GetPoint(hit) - transform.position;
+            _speed = shotDirection * _power;
+            transform.rotation = Quaternion.LookRotation(shotDirection);
+        
+            if (Input.GetButtonDown("Fire1"))
+            {
+                Rigidbody cannonBall = Instantiate(_cannonBallPrefab, _firePoint.transform.position,  Quaternion.identity).GetComponent<Rigidbody>();
+                cannonBall.AddForce(_speed, ForceMode.VelocityChange);
+            }
         }
+    }
+    
+    private bool CanProcessInput()
+    {
+        return Cursor.lockState == CursorLockMode.Confined;
     }
 }
