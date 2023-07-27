@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CustomGameEvent;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -39,6 +40,7 @@ namespace Enemy
                Vector3 point = GetRandomPointInСircleXZ(_spawnPoint.position, _spawnRadius);
                Enemy enemy = _enemyFactory.Get((EnemyType)Random.Range(0, 2));
                enemyCollection.Add(enemy);
+               GameEvent.SendEnemyCreated(enemyCollection.Count());
                enemy.Warp(point);
                SetWaypoints(enemy);
                

@@ -14,6 +14,11 @@ namespace Enemy
             _enemies.Add(enemy);
         }
 
+        public int Count()
+        {
+            return _enemies.Count;
+        }
+
         public void GameUpdate()
         {
             for (int i = 0; i < _enemies.Count; i++)

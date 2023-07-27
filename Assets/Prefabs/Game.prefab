@@ -56,4 +56,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53617edf7c03bf43b1c38c5b89199ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpawner: {fileID: 0}
+  _enemySpawner: {fileID: 7038440776467110781, guid: 3bdbae3ab72cead429dcbc36dcc651aa, type: 3}
+  _menuSound: {fileID: 467014210, guid: 3797f54515adf344b868ce8e2e285766, type: 3}
+  _battlefield: {fileID: 7299807966918099777, guid: ec56dcf23bd733a4eb0b749eaf8ebc1c, type: 3}

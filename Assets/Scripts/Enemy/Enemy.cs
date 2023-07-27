@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using CustomGameEvent;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,10 +13,12 @@ namespace Enemy
     {
         private NavMeshAgent _agent;
         [SerializeField] private List<Vector3> _waypoints = new List<Vector3>();
+        [SerializeField] private float _health;
+        [SerializeField] private float _speed;
+        
         private int _waypointIndex = 0;
         private Vector3 _target;
-        private float _health;
-        private float _speed;
+        
         public EnemyFactory OriginFactory { get; set; }
 
         private void Awake()
@@ -30,7 +33,7 @@ namespace Enemy
 
         public void Initialize(float speed, float health)
         {
-            _speed = speed;
+            _agent.speed = _speed = speed;
             _health = health;
         }
 
@@ -47,14 +50,16 @@ namespace Enemy
         public void TakeDamage(float amount)
         {
             _health -= amount;
-            if (_health <= 0)
-            {
-                //killedEnemy Global event
-            }
         }
 
         public bool GameUpdate()
         {
+            if (_health <= 0f)
+            {
+                GameEvent.SendEnemyKilled();
+                Recycle();
+                return false;
+            }
             
             if (Vector3.Distance(transform.position, _target) < 1)
             {
@@ -66,7 +71,6 @@ namespace Enemy
 
         public void Recycle()
         {
-            
             OriginFactory.Reclaim(this);
         }
         
@@ -90,5 +94,7 @@ namespace Enemy
                 }
             }
         }
+        
+        
     }
 }

@@ -7,7 +7,7 @@ namespace Enemy
     public class EnemyFactory : GameObjectFactory
     {
         [Serializable]
-        class EnemyConfig
+        private class EnemyConfig
         {
             public Enemy Prefab;
             [FloatRangeSlider(1f, 5f)]
@@ -15,7 +15,7 @@ namespace Enemy
             [FloatRangeSlider(1f, 1000f)]
             public FloatRange Health = new FloatRange(20);
         }
-
+        
         [SerializeField] 
         private EnemyConfig _red, _purple;
 

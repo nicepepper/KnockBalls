@@ -5,9 +5,28 @@ namespace CustomGameEvent
 {
     public static class GameEvent
     {
+        public static UnityEvent OnEnemyKilled =new UnityEvent();
+        public static UnityEvent<int> OnEnemyCreated = new UnityEvent<int>();
+        public static UnityEvent<int> OnGameOver = new UnityEvent<int>();
+
         private static GameStage _current = GameStage.LOADED;
         private static readonly Dictionary<GameStage, UnityEvent> _actions = new Dictionary<GameStage, UnityEvent>();
         private static readonly UnityEvent _onChangedStage = new UnityEvent();
+        
+        public static void SendEnemyKilled()
+        {
+            OnEnemyKilled.Invoke();
+        }
+
+        public static void SendEnemyCreated(int remainingCount)
+        {
+            OnEnemyCreated.Invoke(remainingCount);
+        }
+
+        public static void SendGameOver(int score)
+        {
+            OnGameOver.Invoke(score);
+        }
 
         public static GameStage Current
         {
