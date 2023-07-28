@@ -1,4 +1,3 @@
-using System;
 using CustomGameEvent;
 using UnityEngine;
 using UnityEngine.UI;
