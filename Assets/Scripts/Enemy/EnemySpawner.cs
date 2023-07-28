@@ -67,7 +67,7 @@ namespace Enemy
             return new Vector3(center.x + point.x * radius, center.y, center.z + point.y * radius);
         }
 
-        private void OnDrawGizmos()
+        private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(_spawnPoint.position, _spawnRadius);

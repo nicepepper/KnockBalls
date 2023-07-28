@@ -13,12 +13,7 @@ namespace UI
         {
             _text = gameObject.GetComponent<Text>();
             GameEvent.OnEnemyKilled.AddListener(EnemyKilled);
-            GameEvent.OnStart += Clear;
-        }
-
-        private void OnDisable()
-        {
-            GameEvent.OnStart -= Clear;
+            GameEvent.OnGameOver.AddListener(Clear);
         }
 
         private void EnemyKilled()
@@ -27,7 +22,7 @@ namespace UI
             _text.text = "Killed: " + _killed;
         }
 
-        private void Clear()
+        private void Clear(int killCount)
         {
             _killed = 0;
             _text.text = "Killed: " + _killed;

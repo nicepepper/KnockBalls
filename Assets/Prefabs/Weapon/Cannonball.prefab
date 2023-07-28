@@ -134,7 +134,7 @@ MonoBehaviour:
   _cannonballExplosion: {fileID: 1015959161999642, guid: 3b8dfd33f04f3f940a868272757c4165, type: 3}
   _hitSound: {fileID: 1293116291959358899}
   _lifetime: 2
-  _damage: 500
+  _damage: 450
 --- !u!1 &1420486808462880
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using CustomGameEvent;
 using Enemy;
 using UnityEngine;
-using UnityEngine.Events;
-using Random = UnityEngine.Random;
 
 namespace Game
 {
@@ -19,6 +14,7 @@ namespace Game
         
         private EnemyCollection _enemies = new EnemyCollection();
         private int _killCount = 0;
+        private PlayerData _playerData = new PlayerData();
         
         private void Awake()
         {
@@ -28,25 +24,32 @@ namespace Game
             });
             GameEvent.OnPrepare += OnGamePrepare;
             GameEvent.OnStart += OnGameStart;
-            //GameEvent.OnEnd += OnEndGame;
             GameEvent.OnQuit += OnGameQuit;
         }
-
+        
         private void OnDestroy()
         {
             GameEvent.OnPrepare -= OnGamePrepare;
             GameEvent.OnStart -= OnGameStart;
-            //GameEvent.OnEnd -= OnEndGame;
             GameEvent.OnQuit -= OnGameQuit;
+        }
+        
+        private void Start()
+        {
+            PlayerData.Current = _playerData;
+            SaveLoad.Load();
+            //SaveLoad.DeleteSave();
         }
 
         private void Update()
         {
-            CheckGameOver();
-            _enemies.GameUpdate();
-            Physics.SyncTransforms();
+            if (!CheckGameOver())
+            {
+                _enemies.GameUpdate();
+                Physics.SyncTransforms();
+            }
         }
-
+        
         private void OnGamePrepare()
         {
             _menuSound.Play();
@@ -64,25 +67,23 @@ namespace Game
             Cursor.lockState = CursorLockMode.Confined;
             _killCount = 0;
         }
-
-        private void OnEndGame()
-        {
-            
-        }
-
+        
         private void OnGameQuit()
         {
             Application.Quit();
         }
         
-        private void CheckGameOver()
+        private bool CheckGameOver()
         {
             if (_enemies.Count() == _livingEnemies)
             {
+                _playerData.Score = _killCount;
+                GameEvent.SendGameOver(_killCount);
                 OnGamePrepare();
                 GameEvent.Current = GameStage.END;
-                GameEvent.SendGameOver(_killCount);
+                return true;
             }
+            return false;
         }
     }
 }

@@ -11,11 +11,12 @@ namespace Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class Enemy : MonoBehaviour
     {
-        private NavMeshAgent _agent;
+        //[SerializeField] private EnemyView _view;
         [SerializeField] private List<Vector3> _waypoints = new List<Vector3>();
         [SerializeField] private float _health;
         [SerializeField] private float _speed;
         
+        private NavMeshAgent _agent;
         private int _waypointIndex = 0;
         private Vector3 _target;
         
@@ -35,6 +36,7 @@ namespace Enemy
         {
             _agent.speed = _speed = speed;
             _health = health;
+            //_view.Init(this);
         }
 
         public void Warp(Vector3 pos)
@@ -57,6 +59,7 @@ namespace Enemy
             if (_health <= 0f)
             {
                 GameEvent.SendEnemyKilled();
+                //_view.Die();
                 Recycle();
                 return false;
             }

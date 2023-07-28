@@ -13,19 +13,13 @@ namespace UI
         [SerializeField] private GameObject _uiRecords;
         [SerializeField] private GameObject _uiCredits;
         [SerializeField] private Button _btnStart;
-        /*[SerializeField] private Button _btnRecords;
-        [SerializeField] private Button _btnCredits;*/
         [SerializeField] private Button _btnQuit;
-        [SerializeField] private Button _btnToMenu;
         
-        
-
         private void Awake()
         {
             GameEvent.OnChangedStage += OnChangedGameStage;
             _btnStart.onClick.AddListener(GameController.StartGame);
             _btnQuit.onClick.AddListener(GameController.QuitGame);
-            _btnToMenu.onClick.AddListener(GameController.PreapareGame);
         }
 
         private void OnDestroy()

@@ -15,9 +15,8 @@ namespace Enemy
             [FloatRangeSlider(1f, 1000f)]
             public FloatRange Health = new FloatRange(20);
         }
-        
-        [SerializeField] 
-        private EnemyConfig _red, _purple;
+
+        [SerializeField] private EnemyConfig _red, _purple;
 
         public Enemy Get(EnemyType type)
         {

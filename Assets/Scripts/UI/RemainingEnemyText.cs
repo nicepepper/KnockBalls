@@ -11,12 +11,7 @@ namespace UI
         {
             _text = gameObject.GetComponent<Text>();
             GameEvent.OnEnemyCreated.AddListener(EnemyRemaining);
-            GameEvent.OnStart += Clear;
-        }
-
-        private void OnDisable()
-        {
-            GameEvent.OnStart -= Clear;
+            GameEvent.OnGameOver.AddListener(Clear);
         }
 
         private void EnemyRemaining(int remaining)
@@ -24,7 +19,7 @@ namespace UI
             _text.text = "Enemy: " + remaining;
         }
 
-        private void Clear()
+        private void Clear(int killCount)
         {
             _text.text = "Enemy: 0" ;
         }
